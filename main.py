@@ -72,6 +72,11 @@ text_y = 10
 
 #endregion
 
+#region Game over properties
+font_end = pygame.font.Font("freesansbold.ttf", 40)
+
+#endregion
+
 #region Methods
 def player(x, y):
     screen.blit(pj_img, (x, y))
@@ -92,8 +97,13 @@ def show_score(x, y):
     txt = font.render(f"Score: {score}", True, (255, 255, 255))
     screen.blit(txt, (x, y))
 
+def txt_end():
+    ff = font_end.render("GAME OVER", True, (255, 255, 255))
+    screen.blit(ff, (60, 400))
+    
 #endregion
 
+#region Game loop
 while executing:
     screen.blit(bg, (0, 0))
     
@@ -137,6 +147,13 @@ while executing:
     
     #region Enemy movement
     for e in range(enemy_total):
+        
+        if enemy_y[e] > 450:
+            for k in range(enemy_total):
+                enemy_y[k] = 1000
+            txt_end()
+            break
+        
         enemy_x[e] += enemy_x_change[e]
     
         if enemy_x[e] <= 0:
@@ -178,3 +195,5 @@ while executing:
     #endregion
     
     pygame.display.update()
+    
+#endregion
